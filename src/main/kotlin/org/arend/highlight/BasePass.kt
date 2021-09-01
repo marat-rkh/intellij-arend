@@ -59,6 +59,11 @@ import org.arend.util.ArendBundle
 import java.util.*
 import kotlin.collections.ArrayList
 
+/**
+ * 1. Get all errors from [errorList]
+ * 2. Report to editor: create annotations, save to [holder], apply [holder] data to editor.
+ * 3. Report to [ErrorService]. It stores ArendFile -> errors maps.
+*/
 abstract class BasePass(protected val file: ArendFile, editor: Editor, name: String, protected val textRange: TextRange, highlightInfoProcessor: HighlightInfoProcessor)
     : ProgressableTextEditorHighlightingPass(file.project, editor.document, name, file, editor, textRange, false, highlightInfoProcessor), ErrorReporter {
 

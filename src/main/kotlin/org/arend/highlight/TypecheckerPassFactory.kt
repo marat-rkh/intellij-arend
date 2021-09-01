@@ -25,6 +25,8 @@ class TypecheckerPassFactory : BasePassFactory<ArendFile>(ArendFile::class.java)
         if (file.lastDefinitionModification >= file.project.service<ArendPsiChangeService>().definitionModificationTracker.modificationCount || ApplicationManager.getApplication().isUnitTestMode) {
             TypecheckerPass(file, editor, DefaultHighlightInfoProcessor())
         } else {
+            // If we comment out this line, editor is updated as needed,
+            // but the right panel of the "Arend Errors" is not updated.
             TypecheckerPass.updateErrors(file)
             null
         }

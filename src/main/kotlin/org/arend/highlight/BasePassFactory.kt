@@ -10,6 +10,9 @@ import com.intellij.psi.PsiFile
 import com.intellij.psi.PsiWhiteSpace
 import com.intellij.psi.util.PsiUtil
 
+/**
+ * If changed element is not a comment or whitespace, create usual pass. Otherwise, create [EmptyHighlightingPass].
+ */
 abstract class BasePassFactory<T : PsiFile>(private val clazz: Class<T>) : DirtyScopeTrackingHighlightingPassFactory {
     abstract fun createPass(file: T, editor: Editor, textRange: TextRange): TextEditorHighlightingPass?
 

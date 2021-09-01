@@ -30,6 +30,12 @@ import org.arend.typechecking.execution.PsiElementComparator
 import org.arend.typechecking.order.Ordering
 import org.arend.typechecking.order.listener.CollectingOrderingListener
 
+/**
+ * 1. Perform syntax highlighting for all references and definitions.
+ * 2. Calculate dependency graph for the [file.lastModifiedDefinition], store it in [collector1].
+ * 3. Calculate dependency graphs for all the definitions in the file, store them in [collector2].
+ * 4. If both graphs are not empty, run [BackgroundTypechecker] on them.
+ */
 class ArendHighlightingPass(file: ArendFile, editor: Editor, textRange: TextRange, highlightInfoProcessor: HighlightInfoProcessor)
     : BasePass(file, editor, "Arend resolver annotator", textRange, highlightInfoProcessor) {
 

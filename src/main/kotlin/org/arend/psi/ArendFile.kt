@@ -17,6 +17,7 @@ import org.arend.ArendIcons
 import org.arend.ArendLanguage
 import org.arend.ext.module.LongName
 import org.arend.ext.reference.Precedence
+import org.arend.highlight.ArendHighlightingPass
 import org.arend.injection.PsiInjectionTextFile
 import org.arend.module.ArendPreludeLibrary
 import org.arend.module.ArendRawLibrary
@@ -35,6 +36,7 @@ import org.arend.psi.ext.PsiLocatedReferable
 import org.arend.psi.ext.TCDefinition
 import org.arend.psi.ext.impl.ArendGroup
 import org.arend.psi.ext.impl.ArendInternalReferable
+import org.arend.psi.listener.ArendPsiChangeService
 import org.arend.psi.stubs.ArendFileStub
 import org.arend.resolving.ArendReference
 import org.arend.typechecking.TypeCheckingService
@@ -54,7 +56,15 @@ class ArendFile(viewProvider: FileViewProvider) : PsiFileBase(viewProvider, Aren
     val isRepl: Boolean
         get() = enforcedLibraryConfig != null
 
+    /**
+     * Used to prevent [ArendHighlightingPass] from running when there are no modifications
+     * detected by [ArendPsiChangeService.modificationTracker]. Updated by [ArendHighlightingPass].
+     */
     var lastModification: Long = -1
+    /**
+     * Used to prevent [TypecheckerPass] and [BackgroundTypechecker] from running when there are no modifications
+     * detected by [ArendPsiChangeService.definitionModificationTracker]. Updated by [BackgroundTypechecker] only.
+     */
     var lastDefinitionModification: Long = -1
 
     val moduleLocation: ModuleLocation?

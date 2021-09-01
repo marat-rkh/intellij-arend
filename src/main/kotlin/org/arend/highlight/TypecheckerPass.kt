@@ -11,6 +11,9 @@ import org.arend.toolWindow.errors.ArendMessagesService
 import org.arend.typechecking.error.ErrorService
 import org.arend.typechecking.error.local.GoalError
 
+/**
+ * Reports typechecking errors from [ErrorService] to editor, update [ArendMessagesView].
+ */
 class TypecheckerPass(file: ArendFile, editor: Editor, highlightInfoProcessor: HighlightInfoProcessor)
     : BasePass(file, editor, "Arend typechecker annotator", TextRange(0, editor.document.textLength), highlightInfoProcessor) {
 

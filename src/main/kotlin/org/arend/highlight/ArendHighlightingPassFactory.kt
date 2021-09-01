@@ -11,6 +11,9 @@ import com.intellij.psi.PsiFile
 import org.arend.psi.ArendFile
 import org.arend.psi.listener.ArendPsiChangeService
 
+/**
+ * Create pass if [file.lastModification] < [ArendPsiChangeService.modificationTracker.modificationCount].
+ */
 class ArendHighlightingPassFactory : BasePassFactory<ArendFile>(ArendFile::class.java), TextEditorHighlightingPassFactoryRegistrar {
     private var myPassId = -1
 
