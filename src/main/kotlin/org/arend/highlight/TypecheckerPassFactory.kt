@@ -21,6 +21,25 @@ class TypecheckerPassFactory : BasePassFactory<ArendFile>(ArendFile::class.java)
 
     override fun allowWhiteSpaces() = true
 
+    //\open Nat (+)
+    //
+    //{-
+    //- Here is what happens when we modify code:
+    //- 1. Both ArendHighlightingPassFactory and TypecheckerPassFactory are called.
+    //- 2. ArendHighlightingPassFactory creates ArendHighlightingPass. That pass starts BackgroundTypechecker
+    //- in applyInformationWithProgress. BackgroundTypechecker typechecks the file and marks it as "definitions modified".
+    //- 3. TypecheckerPassFactory checks "definitions modified" flag. If it is true, it creates TypecheckerPass, which
+    //- applies errors found by BackgroundTypechecker to the editor and ArendMessagesView. Otherwise, it only
+    //- updates ArendMessagesView.
+    //-
+    //- Here is why the bug happens:
+    //- 1. TypecheckerPassFactory sees "definitions modified" is false and updates ArendMessagesView. This action invalidates
+    //- the editor in ArendMessagesView.
+    //- 2. ArendHighlightingPass.applyInformationWithProgress is no executed because some editor was invalidated.
+    //- As a result, BackgroundTypechecker is not started and "definitions modified" flag is not updated.
+    //-}
+    //
+    //\func f : Nat => {?}
     override fun createPass(file: ArendFile, editor: Editor, textRange: TextRange) =
         if (file.lastDefinitionModification >= file.project.service<ArendPsiChangeService>().definitionModificationTracker.modificationCount || ApplicationManager.getApplication().isUnitTestMode) {
             TypecheckerPass(file, editor, DefaultHighlightInfoProcessor())
